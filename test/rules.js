@@ -265,3 +265,25 @@ test("rules(), add messages", function() {
 	$("#firstnamec").valid();
 	same( v.errorList[0] && v.errorList[0].message, "required" );
 });
+
+test("rules(), disableAutoAddAttributeRules", function() {
+	var v = $("#v2").validate({});
+	same( $("#v2-i4").rules(), { required: true, minlength: 2 });
+  
+  var orig = jQuery.validator.attributeRules;
+  jQuery.validator.attributeRules = function() { return {}; };
+	var v = $("#v2").validate();
+	same( $("#v2-i4").rules(), { required: true });
+  jQuery.validator.attributeRules = orig;
+});
+
+test("rules(), disableAutoAddClassRules", function() {
+	var v = $("#elementsOrder").validate({});
+	same( $("#order2").rules(), { required: true });
+  
+  var orig = jQuery.validator.classRules;
+  jQuery.validator.classRules = function() { return {}; };
+	var v = $("#elementsOrder").validate({});
+	same( $("#order2").rules(), {});
+  jQuery.validator.classRules = orig;
+});
